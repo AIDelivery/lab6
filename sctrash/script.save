@@ -1,0 +1,13 @@
+#!/bin/bash
+xterm -e --noclose "Hello" &
+xterm -e --noclose "HI" &
+xtrem -e --noclose "Heya!" &
+
+x-terminal-emulator -e --noclose "echo Hello" &
+
+x-terminal-emulator -e --noclose "echo HI" &
+
+x-terminal-emulator -e --noclose "echo Heya!" 
+x-terminal-emulator -e --noclose "echo Hello" &
+
+done

@@ -1,0 +1,5 @@
+#!/bin/bash
+konsole --noclose -e echo Hello terminal 1! &
+konsole --noclose -e "TT"
+cd /home/dan/Desktop
+mkdir tt
