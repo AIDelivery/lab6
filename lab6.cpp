@@ -10,7 +10,8 @@ void subrun(int i) {
     timeval curtime;
 
     gettimeofday(&curtime, NULL);
-    cout << ctime(&curtime.tv_sec) << endl;
+    cout << ctime(&curtime.tv_sec) << "Subprocess PID: " << getpid() << endl << endl;
+
   }
 
     // execl("./sub_prog", argv[0], (char*) 0);
@@ -18,12 +19,13 @@ void subrun(int i) {
 
 int main(int argc, char const *argv[]) {
 
-  // sigset_t mask;
+  sigset_t mask;
   struct sigaction act;
 
   int n_of_runs;
   timeval per;
   itimerval timer, timer_c;
+  time_t s, e;
 
   try {
     n_of_runs = stoi(argv[1]);
@@ -40,9 +42,9 @@ int main(int argc, char const *argv[]) {
     return 1;
   }
 
-  // sigemptyset(&mask);
-  // sigaddset(&mask, SIGTSTP);
-  // sigprocmask(SIG_BLOCK, &mask, NULL);
+  sigemptyset(&mask);
+  sigaddset(&mask, SIGTSTP);
+  sigprocmask(SIG_BLOCK, &mask, NULL);
 
   signal(SIGALRM, subrun);
 
@@ -52,8 +54,16 @@ int main(int argc, char const *argv[]) {
 
   setitimer(ITIMER_REAL, &timer, NULL);
   for(int i = 0; i < n_of_runs; i++) {
+    // cout << "\n[RUN]\n";
+    s = time(NULL);
     pause();
-    // signal(SIGALRM, subrun);
+
+    // sigset_t t; int p;
+    // sigaddset(&t, SIGALRM);
+    // sigwait(&t, &p);
+
+    e = time(NULL);
+    cout << "Real time period: " << difftime(e, s) << endl;
   }
 
   return 0;
